@@ -18,6 +18,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {HeaderTitle} from 'react-navigation-stack';
+import ProductItem from '../../components/shop/ProductItem';
 import {useSelector} from 'react-redux';
 
 const ProductOverviewScreen = () => {
@@ -27,6 +28,15 @@ const ProductOverviewScreen = () => {
       data={products}
       keyExtractor={item => item.id}
       renderItem={itemData => <Text>{itemData.item.title}</Text>}
+      renderItem={itemData => (
+        <ProductItem
+          image={itemData.item.imageUrl}
+          title={itemData.item.title}
+          price={itemData.item.price}
+          onViewdetail={() => {}}
+          onAddtoCart={() => {}}
+        />
+      )}
     />
   );
 };
