@@ -11,18 +11,25 @@ import {
   Text,
   Button,
 } from 'react-native';
+import productReducer from './store/reducer/products';
+import {Provider} from 'react-redux';
+import {createStore, combineReducers} from 'redux';
 import {
   Colors,
   DebugInstructions,
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
+import ShopNavigator from './navigation/ShopNavigator';
+const rootReducer = combineReducers({
+  products: productReducer,
+});
+const store = createStore(rootReducer);
 const App = () => {
   return (
-    <View>
-      <Text>Application</Text>
-    </View>
+    <Provider store={store}>
+      <ShopNavigator />
+    </Provider>
   );
 };
 
