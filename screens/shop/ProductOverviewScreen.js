@@ -21,7 +21,7 @@ import {HeaderTitle} from 'react-navigation-stack';
 import ProductItem from '../../components/shop/ProductItem';
 import {useSelector} from 'react-redux';
 
-const ProductOverviewScreen = () => {
+const ProductOverviewScreen = props => {
   const products = useSelector(state => state.products.availableProducts);
   return (
     <FlatList
@@ -33,8 +33,13 @@ const ProductOverviewScreen = () => {
           image={itemData.item.imageUrl}
           title={itemData.item.title}
           price={itemData.item.price}
-          onViewdetail={() => {}}
-          onAddtoCart={() => {}}
+          onViewDetail={() => {
+            props.navigation.navigate('ProductDetail', {
+              productId: itemData.item.id,
+              productTitle: itemData.item.title,
+            });
+          }}
+          onAddToCart={() => {}}
         />
       )}
     />
