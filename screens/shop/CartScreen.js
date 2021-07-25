@@ -18,6 +18,7 @@ import ProductItem from '../../components/shop/ProductItem';
 import {useSelector, useDispatch} from 'react-redux';
 import CartItem from '../../components/shop/CartItem';
 import * as cartActions from '../../store/actions/cart';
+import * as orderActions from '../../store/actions/order';
 import {Item} from 'react-navigation-header-buttons';
 
 const CartScreen = props => {
@@ -47,6 +48,9 @@ const CartScreen = props => {
         </Text>
         <Button
           disabled={cartItems.length === 0}
+          onPress={() => {
+            dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+          }}
           color={Colors.accent}
           title="Order Now"></Button>
       </View>
@@ -58,6 +62,7 @@ const CartScreen = props => {
             quantity={itemData.item.quantity}
             title={itemData.item.productTitle}
             amount={itemData.item.sum}
+            deletable
             onRemove={() => {
               dispatch(cartActions.removeFromCart(itemData.item.productId));
             }}
@@ -71,11 +76,6 @@ const CartScreen = props => {
 CartScreen.navigationOptions = navigationData => {
   return {
     headerTitle: 'Cart',
-    headerRight: (
-      <MaterialHeaderButtons>
-        <Item title="Save" iconName="favorite" onPress={() => {}} />
-      </MaterialHeaderButtons>
-    ),
   };
 };
 

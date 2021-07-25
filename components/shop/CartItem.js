@@ -26,9 +26,11 @@ const CartItem = props => {
       </Text>
       <View style={styles.itemData}>
         <Text style={styles.mainText}>${props.amount.toFixed(2)}</Text>
-        <TouchableCmp onPress={props.onRemove} style={styles.deleteButton}>
-          <Icon name="g-translate" color="red" />
-        </TouchableCmp>
+        {props.deletable && (
+          <TouchableCmp onPress={props.onRemove} style={styles.deleteButton}>
+            <Icon name="g-translate" color="red" />
+          </TouchableCmp>
+        )}
       </View>
     </View>
   );
