@@ -4,6 +4,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Alert,
   TextInput,
   useColorScheme,
   View,
@@ -27,6 +28,18 @@ const UserProductScreen = props => {
       productId: id,
     });
   };
+  const deleteHandler = id => {
+    Alert.alert('Are you sure?', 'Do you really want to delete this item?', [
+      {text: 'No', style: 'default'},
+      {
+        text: 'Yes',
+        style: 'destructive',
+        onPress: () => {
+          dispatch(productActions.deleteProduct(id));
+        },
+      },
+    ]);
+  };
   return (
     <FlatList
       data={userProducts}
@@ -49,9 +62,7 @@ const UserProductScreen = props => {
           <Button
             color={Colors.primary}
             title="Delete"
-            onPress={() => {
-              dispatch(productActions.deleteProduct(itemData.item.id));
-            }}
+            onPress={() => deleteHandler(itemData.item.id)}
           />
         </ProductItem>
       )}

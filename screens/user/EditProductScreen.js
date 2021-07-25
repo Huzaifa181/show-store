@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   useColorScheme,
+  Alert,
   View,
   FlatList,
   Text,
@@ -21,6 +22,7 @@ import * as productActions from '../../store/actions/products';
 import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
 
 const EditProductScreen = props => {
+  const dispatch = useDispatch();
   const prodId = props.navigation.getParam('productId');
   const editedProduct = useSelector(state =>
     state.products.userProducts.find(prod => prod.id === prodId),
@@ -43,12 +45,12 @@ const EditProductScreen = props => {
         productActions.createProduct(title, description, imageUrl, +price),
       );
     }
+    props.navigation.goBack();
   }, [dispatch, prodId, title, description, imageUrl, price]);
   useEffect(() => {
     props.navigation.setParams({submit: submitHandler});
   }, [submitHandler]);
 
-  const dispatch = useDispatch();
   return (
     <ScrollView>
       <View style={styles.form}>
