@@ -11,6 +11,8 @@ import {
   Text,
   Button,
 } from 'react-native';
+import {MaterialHeaderButtons} from '../../components/UI/HeaderButton';
+import {Item} from 'react-navigation-header-buttons';
 import {
   Colors,
   DebugInstructions,
@@ -42,16 +44,31 @@ const ProductOverviewScreen = props => {
             });
           }}
           onAddToCart={() => {
-            dispatch(cartActions.addToCart(itemData));
+            dispatch(cartActions.addToCart(itemData.item));
           }}
         />
       )}
     />
   );
 };
-ProductOverviewScreen.navigationOptions = {
-  headerTitle: 'All Products!',
+
+ProductOverviewScreen.navigationOptions = navigationData => {
+  return {
+    headerTitle: 'All Products',
+    headerRight: (
+      <MaterialHeaderButtons>
+        <Item
+          title="Save"
+          iconName="favorite"
+          onPress={() => {
+            navigationData.navigation.navigate('Cart');
+          }}
+        />
+      </MaterialHeaderButtons>
+    ),
+  };
 };
+
 const styles = StyleSheet.create({});
 
 export default ProductOverviewScreen;
