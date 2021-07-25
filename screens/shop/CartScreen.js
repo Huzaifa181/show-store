@@ -33,9 +33,10 @@ const CartScreen = props => {
         sum: state.cart.items[key].sum,
       });
     }
-    return transformedCartItems;
+    return transformedCartItems.sort((a, b) =>
+      a.productId > b.productId ? 1 : -1,
+    );
   });
-  console.log(cartItems);
   const dispatch = useDispatch();
   return (
     <View style={styles.screen}>
@@ -57,7 +58,9 @@ const CartScreen = props => {
             quantity={itemData.item.quantity}
             title={itemData.item.productTitle}
             amount={itemData.item.sum}
-            onRemove={() => {}}
+            onRemove={() => {
+              dispatch(cartActions.removeFromCart(itemData.item.productId));
+            }}
           />
         )}
       />
