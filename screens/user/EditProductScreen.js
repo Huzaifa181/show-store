@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -26,15 +26,29 @@ const EditProductScreen = props => {
     state.products.userProducts.find(prod => prod.id === prodId),
   );
   const [title, setTitle] = useState(editedProduct ? editedProduct.title : '');
-  const [imageUrl, setImageUrl] = useState(
-    editedProduct ? editedProduct.imageUrl : '',
-  );
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState(
     editedProduct ? editedProduct.description : '',
   );
-  const dispatch = useDispatch();
+  const [imageUrl, setImageUrl] = useState(
+    editedProduct ? editedProduct.imageUrl : '',
+  );
+  const submitHandler = useCallback(() => {
+    if (editedProduct) {
+      dispatch(
+        productActions.updateProduct(prodId, title, description, imageUrl),
+      );
+    } else {
+      dispatch(
+        productActions.createProduct(title, description, imageUrl, +price),
+      );
+    }
+  }, [dispatch, prodId, title, description, imageUrl, price]);
+  useEffect(() => {
+    props.navigation.setParams({submit: submitHandler});
+  }, [submitHandler]);
 
+  const dispatch = useDispatch();
   return (
     <ScrollView>
       <View style={styles.form}>
@@ -43,14 +57,14 @@ const EditProductScreen = props => {
           <TextInput
             style={styles.input}
             value={title}
-            onChangeText={setTitle}></TextInput>
+            onChangeText={text => setTitle(text)}></TextInput>
         </View>
         <View style={styles.formControl}>
           <Text style={styles.label}>Image Url</Text>
           <TextInput
             style={styles.input}
             value={imageUrl}
-            onChangeText={setImageUrl}></TextInput>
+            onChangeText={text => setImageUrl(text)}></TextInput>
         </View>
         {editedProduct ? null : (
           <View style={styles.formControl}>
@@ -58,7 +72,7 @@ const EditProductScreen = props => {
             <TextInput
               style={styles.input}
               value={price}
-              onChangeText={setPrice}></TextInput>
+              onChangeText={text => setPrice(text)}></TextInput>
           </View>
         )}
 
@@ -67,7 +81,7 @@ const EditProductScreen = props => {
           <TextInput
             style={styles.input}
             value={description}
-            onChangeText={setDescription}></TextInput>
+            onChangeText={text => setDescription(text)}></TextInput>
         </View>
       </View>
     </ScrollView>
@@ -75,13 +89,14 @@ const EditProductScreen = props => {
 };
 
 EditProductScreen.navigationOptions = navigationData => {
+  const submitFn = navigationData.navigation.getParam('submit');
   return {
     headerTitle: navigationData.navigation.getParam('productId')
       ? 'Edit Product'
       : 'Add Product',
     headerRight: (
       <MaterialHeaderButtons>
-        <Item title="Save" iconName="favorite" onPress={() => {}} />
+        <Item title="Save" iconName="favorite" onPress={submitFn} />
       </MaterialHeaderButtons>
     ),
   };
