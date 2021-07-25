@@ -17,7 +17,7 @@ import Colors from '../../constants/colors/Colors';
 import {HeaderTitle} from 'react-navigation-stack';
 import ProductItem from '../../components/shop/ProductItem';
 import {useSelector, useDispatch} from 'react-redux';
-import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 
 const UserProductScreen = props => {
   const dispatch = useDispatch();
@@ -33,7 +33,13 @@ const UserProductScreen = props => {
           price={itemData.item.price}
           onSelect={() => {}}>
           <Button color={Colors.primary} title="Edit" onPress={() => {}} />
-          <Button color={Colors.primary} title="Delete" onPress={() => {}} />
+          <Button
+            color={Colors.primary}
+            title="Delete"
+            onPress={() => {
+              dispatch(productActions.deleteProduct(itemData.item.id));
+            }}
+          />
         </ProductItem>
       )}
     />
@@ -49,7 +55,7 @@ UserProductScreen.navigationOptions = navigationData => {
           title="Save"
           iconName="favorite"
           onPress={() => {
-            navigationData.navigation.navigate('Cart');
+            navigationData.navigation.toggleDrawer();
           }}
         />
       </MaterialHeaderButtons>

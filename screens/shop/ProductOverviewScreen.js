@@ -13,12 +13,7 @@ import {
 } from 'react-native';
 import {MaterialHeaderButtons} from '../../components/UI/HeaderButton';
 import {Item} from 'react-navigation-header-buttons';
-import {
-  Colors,
-  DebugInstructions,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import Colors from '../../constants/colors/Colors';
 import {HeaderTitle} from 'react-navigation-stack';
 import ProductItem from '../../components/shop/ProductItem';
 import {useSelector, useDispatch} from 'react-redux';
