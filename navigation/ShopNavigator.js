@@ -7,6 +7,7 @@ import ProductDetailScreen from '../screens/shop/ProductDetailScreen';
 import {Platform} from 'react-native';
 import UserProductScreen from '../screens/user/UserProductsScreen';
 import Colors from '../constants/colors/Colors';
+import EditProductScreen from '../screens/user/EditProductScreen';
 import OrderScreen from '../screens/shop/OrderScreen';
 import CartScreen from '../screens/shop/CartScreen';
 import Icon from 'react-native-ionicons';
@@ -51,6 +52,7 @@ const OrdersNavigator = createStackNavigator(
 const AdminNavigator = createStackNavigator(
   {
     UserProducts: UserProductScreen,
+    EditProduct: EditProductScreen,
   },
   {
     navigationOptions: {
