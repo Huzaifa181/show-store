@@ -11,6 +11,7 @@ import {
   Platform,
   Text,
   Button,
+  ActivityIndicator,
 } from 'react-native';
 import Colors from '../../constants/colors/Colors';
 import {HeaderTitle} from 'react-navigation-stack';
@@ -23,8 +24,27 @@ import {Item} from 'react-navigation-header-buttons';
 import {MaterialHeaderButtons} from '../../components/UI/HeaderButton';
 import OrderItem from '../../components/shop/OrderItem';
 const OrderScreen = props => {
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const orders = useSelector(state => state.orders.orders);
+
+  useEffect(async () => {
+    setIsLoading(true);
+    try {
+      await dispatch(orderActions.fetchOrders());
+    } catch (err) {}
+    setIsLoading(false);
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator
+          size="large"
+          color={Colors.primary}></ActivityIndicator>
+      </View>
+    );
+  }
   return (
     <FlatList
       data={orders}
@@ -78,6 +98,11 @@ const styles = StyleSheet.create({
   },
   amount: {
     color: Colors.primary,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

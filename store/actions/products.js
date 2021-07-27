@@ -33,7 +33,6 @@ export const fetchProducts = () => {
         products: loadedProducts,
       });
     } catch (err) {
-      console.log('dispatch error', err.message);
       throw err;
     }
   };

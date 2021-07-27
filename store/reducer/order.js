@@ -1,7 +1,7 @@
 import PRODUCTS from '../../data/dummy_data';
 import {ADD_TO_CART, REMOVE_FROM_CART} from '../actions/cart';
 import CartItem from '../../models/cart-item';
-import {ADD_ORDER} from '../actions/order';
+import {ADD_ORDER, SET_ORDER} from '../actions/order';
 import Order from '../../models/order';
 const initialState = {
   orders: [],
@@ -9,6 +9,10 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_ORDER:
+      return {
+        orders: action.orders,
+      };
     case ADD_ORDER:
       const newOrder = new Order(
         action.orderData.id,
