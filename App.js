@@ -15,7 +15,7 @@ import productReducer from './store/reducer/products';
 import cartReducer from './store/reducer/cart';
 import orderReducer from './store/reducer/order';
 import {Provider} from 'react-redux';
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {
   Colors,
   DebugInstructions,
@@ -23,12 +23,13 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import ShopNavigator from './navigation/ShopNavigator';
+import ReduxThunk from 'redux-thunk';
 const rootReducer = combineReducers({
   products: productReducer,
   cart: cartReducer,
   orders: orderReducer,
 });
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const App = () => {
   return (
     <Provider store={store}>

@@ -18,10 +18,16 @@ import {HeaderTitle} from 'react-navigation-stack';
 import ProductItem from '../../components/shop/ProductItem';
 import {useSelector, useDispatch} from 'react-redux';
 import * as cartActions from '../../store/actions/cart';
+import * as productActions from '../../store/actions/products';
 
 const ProductOverviewScreen = props => {
   const dispatch = useDispatch();
   const products = useSelector(state => state.products.availableProducts);
+
+  useEffect(() => {
+    dispatch(productActions.fetchProducts());
+  }, [dispatch]);
+
   const selectItemHandler = (id, title) => {
     props.navigation.navigate('Product Detail', {
       productId: id,
