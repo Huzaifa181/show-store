@@ -4,6 +4,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  ActivityIndicator,
   TextInput,
   useColorScheme,
   View,
@@ -22,6 +23,9 @@ import * as orderActions from '../../store/actions/order';
 import {Item} from 'react-navigation-header-buttons';
 
 const CartScreen = props => {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
     const transformedCartItems = [];
@@ -38,7 +42,11 @@ const CartScreen = props => {
       a.productId > b.productId ? 1 : -1,
     );
   });
-  const dispatch = useDispatch();
+  const sendOrderHandler = async () => {
+    setIsLoading(true);
+    await dispatch(cartActions.removeFromCart(itemData.item.productId));
+    setIsLoading(false);
+  };
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
@@ -48,13 +56,19 @@ const CartScreen = props => {
             ${Math.round((cartTotalAmount.toFixed(2) * 100) / 100)}
           </Text>
         </Text>
-        <Button
-          disabled={cartItems.length === 0}
-          onPress={() => {
-            dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
-          }}
-          color={Colors.accent}
-          title="Order Now"></Button>
+        {isLoading ? (
+          <ActivityIndicator
+            size="small"
+            color={Colors.primary}></ActivityIndicator>
+        ) : (
+          <Button
+            disabled={cartItems.length === 0}
+            onPress={() => {
+              dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+            }}
+            color={Colors.accent}
+            title="Order Now"></Button>
+        )}
       </View>
       <FlatList
         data={cartItems}
@@ -65,9 +79,7 @@ const CartScreen = props => {
             title={itemData.item.productTitle}
             amount={itemData.item.sum}
             deletable
-            onRemove={() => {
-              dispatch(cartActions.removeFromCart(itemData.item.productId));
-            }}
+            onRemove={sendOrderHandler}
           />
         )}
       />
