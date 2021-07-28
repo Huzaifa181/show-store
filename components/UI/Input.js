@@ -48,14 +48,16 @@ export const Input = props => {
   }, [inputState, onInputChange, id]);
 
   const textChanegHandler = text => {
-    const emailRegex =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const emailRegex = /\S+@\S+\.\S+/;
     let isValid = true;
     if (props.required && text.trim().length === 0) {
       isValid = false;
     }
-    if (props.email && emailRegex.test(text.toLowerCase())) {
+    console.log('test', emailRegex.test(text.toLowerCase()));
+    console.log('lowercase', text.toLowerCase());
+    if (props.email && !emailRegex.test(text.toLowerCase())) {
       isValid = false;
+      console.log('Jd', isValid);
     }
     if (props.min != null && +text < props.min) {
       isValid = false;

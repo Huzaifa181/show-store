@@ -4,16 +4,16 @@ export const ADD_ORDER = 'ADD_ORDER';
 export const SET_ORDER = 'SET_ORDER';
 
 export const fetchOrders = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const userId = getState().auth.userId;
     try {
       const response = await fetch(
-        'https://show-store-4ff65-default-rtdb.firebaseio.com/orders/u1.json',
+        `https://show-store-4ff65-default-rtdb.firebaseio.com/orders/${userId}.json`,
       );
       if (!response.ok) {
         throw new Error('Some thing went wrong!');
       }
       const resData = await response.json();
-      console.log(resData);
       const loadedOrders = [];
       for (const key in resData) {
         loadedOrders.push(
@@ -25,7 +25,6 @@ export const fetchOrders = () => {
           ),
         );
       }
-      console.log(loadedOrders);
       dispatch({
         type: SET_ORDER,
         orders: loadedOrders,
@@ -37,10 +36,12 @@ export const fetchOrders = () => {
 };
 
 export const addOrder = (cartItems, totalAmount) => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    const token = getState().auth.token;
+    const userId = getState().auth.userId;
     const date = new Date();
     const response = await fetch(
-      `https://show-store-4ff65-default-rtdb.firebaseio.com/orders/u1.json`,
+      `https://show-store-4ff65-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
       {
         method: 'POST',
         headers: {

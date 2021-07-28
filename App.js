@@ -14,6 +14,7 @@ import {
 import productReducer from './store/reducer/products';
 import cartReducer from './store/reducer/cart';
 import orderReducer from './store/reducer/order';
+import authReducer from './store/reducer/auth';
 import {Provider} from 'react-redux';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   products: productReducer,
   cart: cartReducer,
   orders: orderReducer,
+  auth: authReducer,
 });
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const App = () => {

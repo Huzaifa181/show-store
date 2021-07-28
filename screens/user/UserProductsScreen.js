@@ -40,6 +40,13 @@ const UserProductScreen = props => {
       },
     ]);
   };
+  if (userProducts.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No product found, May be start creating some?</Text>
+      </View>
+    );
+  }
   return (
     <FlatList
       data={userProducts}
@@ -98,6 +105,12 @@ UserProductScreen.navigationOptions = navigationData => {
   };
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default UserProductScreen;
