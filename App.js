@@ -25,6 +25,8 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import ShopNavigator from './navigation/ShopNavigator';
 import ReduxThunk from 'redux-thunk';
+import NavigationContainer from './navigation/NavigationContainer';
+
 const rootReducer = combineReducers({
   products: productReducer,
   cart: cartReducer,
@@ -35,7 +37,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 const App = () => {
   return (
     <Provider store={store}>
-      <ShopNavigator />
+      <NavigationContainer />
     </Provider>
   );
 };
