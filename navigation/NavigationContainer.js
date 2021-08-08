@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import ShopNavigator from './ShopNavigator';
 import {useSelector} from 'react-redux';
-import {useEffect} from 'react';
 import {NavigationActions} from 'react-navigation';
 
 const NavigationContainer = props => {

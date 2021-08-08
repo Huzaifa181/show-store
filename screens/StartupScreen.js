@@ -53,8 +53,6 @@ const StartupScreen = props => {
     tryLogin();
   }, [dispatch]);
 
-  const expirationTime = expirationDate.getTime() - new Date().getTime();
-
   return (
     <View style={styles.screen}>
       <ActivityIndicator
